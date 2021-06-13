@@ -15,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HumanConnect">
-        <activity android:name=".Activity.SignInCompleteActivity"></activity>
+        <activity android:name=".Activity.AddressBookUpdateActivity"></activity>
+        <activity android:name=".Activity.AddressBookDetailActivity" />
+        <activity android:name=".Activity.AddressBookMainActivity" />
+        <activity android:name=".Activity.AddressBookInsertActivity" />
+        <activity android:name=".Activity.SignInCompleteActivity" />
         <activity android:name=".Activity.SignInPwActivity" />
         <activity android:name=".Activity.SignInTelActivity" />
         <activity android:name=".Activity.SignInNameActivity" />

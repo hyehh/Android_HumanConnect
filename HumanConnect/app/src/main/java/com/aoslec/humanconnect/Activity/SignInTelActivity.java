@@ -42,6 +42,7 @@ public class SignInTelActivity extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.sign_in_tel_btn_back:
                     intent = new Intent(SignInTelActivity.this, LoginActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.sign_in_tel_btn_next:
                     intent = new Intent(SignInTelActivity.this, SignInPwActivity.class);

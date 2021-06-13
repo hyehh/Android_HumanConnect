@@ -89,6 +89,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="문자, 숫자 포함 8자리 이상"
+                android:inputType="textPassword"
                 />
 
         </LinearLayout>

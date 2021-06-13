@@ -41,6 +41,7 @@ public class SignInNameActivity extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.sign_in_name_btn_back:
                     intent = new Intent(SignInNameActivity.this, LoginActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.sign_in_name_btn_next:
                     intent = new Intent(SignInNameActivity.this, SignInTelActivity.class);

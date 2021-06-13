@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ import com.aoslec.humanconnect.R;
 public class SignInPwActivity extends AppCompatActivity {
 
     String macIP, name, urlAddr = null;
-    int tel = 0;
+    int mid = 0;
     EditText pw = null;
     Button btnBack, btnNext = null;
 
@@ -27,7 +28,7 @@ public class SignInPwActivity extends AppCompatActivity {
         Intent intent = getIntent();
         macIP = intent.getStringExtra("macIP");
         name = intent.getStringExtra("name");
-        tel = intent.getIntExtra("tel", 0);
+        mid = intent.getIntExtra("tel", 0);
 
         urlAddr = "http://" + macIP + ":8080/humanconnect/signIn.jsp?";
 
@@ -44,22 +45,30 @@ public class SignInPwActivity extends AppCompatActivity {
         public void onClick(View v) {
             String editPw = pw.getText().toString();
             Intent intent = null;
-            urlAddr = urlAddr + "name=" + name + "&tel=" + tel + "&pw=" + pw;
+
+            //urlAddr = urlAddr + "name=777&mid=223&pw=888";
+            urlAddr = urlAddr + "name=" + name.toString() + "&mid=" + mid + "&pw=" + editPw;
+            Log.v("Message", urlAddr);
 
             switch (v.getId()){
-                case R.id.sign_in_tel_btn_back:
+                case R.id.sign_in_pw_btn_back:
                     intent = new Intent(SignInPwActivity.this, LoginActivity.class);
+                    startActivity(intent);
                     break;
-                case R.id.sign_in_tel_btn_next:
+                case R.id.sign_in_pw_btn_next:
 
                     String result = connectSignInData();
+                    //Log.v("Message", result);
                     if(result.equals("1")){
-                        intent = new Intent(SignInPwActivity.this, SignInCompleteActivity.class);
-                        intent.putExtra("macIP", macIP);
+                       intent = new Intent(SignInPwActivity.this, SignInCompleteActivity.class);
+//                        intent.putExtra("macIP", macIP);
                         intent.putExtra("name", name);
-                        intent.putExtra("tel", editPw);
-                        Toast.makeText(SignInPwActivity.this, "입력이 완료되었습니다", Toast.LENGTH_SHORT).show();
+//                        intent.putExtra("tel", mid);
+//                        intent.putExtra("pw", editPw);
                         startActivity(intent);
+
+                        Toast.makeText(SignInPwActivity.this, "입력이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                        finish();
                     }else {
                         Toast.makeText(SignInPwActivity.this, "입력이 실패 되었습니다", Toast.LENGTH_SHORT).show();
                     }
@@ -69,6 +78,7 @@ public class SignInPwActivity extends AppCompatActivity {
     };
 
     private String connectSignInData(){
+        Log.v("Message", "result");
         String result = null;
         try {
             // NetworkTask 로 넘겨줌
@@ -76,8 +86,10 @@ public class SignInPwActivity extends AppCompatActivity {
             Object obj = networkTask.execute().get();
             // 1이 들어오면 성공한 것, 만약 그 이외의 숫자면 실패한 것
             result = (String) obj;
+            Log.v("Message", result);
         }catch (Exception e){
             e.printStackTrace();
+            Toast.makeText(SignInPwActivity.this, "실패", Toast.LENGTH_SHORT).show();
         }
         return result;
     }

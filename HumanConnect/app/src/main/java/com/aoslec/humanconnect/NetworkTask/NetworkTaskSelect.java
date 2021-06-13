@@ -18,19 +18,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class NetworkTask extends AsyncTask<Integer, String, Object> {
+public class NetworkTaskSelect extends AsyncTask<Integer, String, Object> {
 
     Context context = null;
     String mAddr = null;
     ProgressDialog progressDialog = null;
-    ArrayList<Member> members = null;
+    ArrayList<AddressBook> addressBooks = null;
     String where = null;
 
-    public NetworkTask(Context context, String mAddr, String where){
+    public NetworkTaskSelect(Context context, String mAddr, String where){
         this.context = context;
         this.mAddr = mAddr;
-        this.members = members;
-        this.members = new ArrayList<Member>();
+        this.addressBooks = addressBooks;
+        this.addressBooks = new ArrayList<AddressBook>();
         this.where = where;
     }
 
@@ -87,15 +87,13 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
                     if(strLine == null) break;
                     stringBuffer.append(strLine + "\n");
                 }
-                if (where.equals("signIn")) {
-                    // return 값이 존재
+                if (where.equals("selectAll")) {
+                    parserSelect(stringBuffer.toString());
+                } else if(where.equals("delete")){
                     result = parserAction(stringBuffer.toString());
-                    Log.v("Message", result);
-                }else if(where.equals("Login")){
-                    // return 값이 존재
+                }else if(where.equals("update")){
                     result = parserAction(stringBuffer.toString());
-                    Log.v("Message", result);
-                } else {
+                }else {
                     result = parserAction(stringBuffer.toString());
                 }
             }
@@ -110,7 +108,11 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
                 e.printStackTrace();
             }
         }
-        if(where.equals("signIn")){
+        if(where.equals("selectAll")){
+            return addressBooks;
+        }else if(where.equals("delete")){
+            return result;
+        }else if(where.equals("update")){
             return result;
         }else {
             return result;
@@ -130,24 +132,25 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
         return returnValue;
     }
 
-//    private void parserSelect(String str){
-//        try {
-//            JSONObject jsonObject = new JSONObject(str);
-//            JSONArray jsonArray = new JSONArray(jsonObject.getString("addressBooks_info"));
-//            addre.clear();
-//
-//            for(int i=0; i<jsonArray.length(); i++){
-//                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-//                String code = jsonObject1.getString("code");
-//                String name = jsonObject1.getString("name");
-//                String dept = jsonObject1.getString("dept");
-//                String phone = jsonObject1.getString("phone");
-//
-//                Student student = new Student(code, name, dept, phone);
-//                students.add(student);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    private void parserSelect(String str){
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray jsonArray = new JSONArray(jsonObject.getString("addressBooks_info"));
+            addressBooks.clear();
+
+            for(int i=0; i<jsonArray.length(); i++){
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                int acode = jsonObject1.getInt("acode");
+                String name = jsonObject1.getString("name");
+                int phone = jsonObject1.getInt("phone");
+                String email = jsonObject1.getString("email");
+                String filePath = jsonObject1.getString("filePath");
+
+                AddressBook addressBook = new AddressBook(acode, name, phone, email, filePath);
+                addressBooks.add(addressBook);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

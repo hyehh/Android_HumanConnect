@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.AddressBookDetailActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        >
+
+        <ImageView
+            android:id="@+id/detail_iv"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:maxHeight="200dp"
+            android:maxWidth="200dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이름    "
+            android:textSize="20dp"
+            />
+
+        <TextView
+            android:id="@+id/detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:textSize="20dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전화번호    "
+            android:textSize="20dp"
+            />
+
+        <TextView
+            android:id="@+id/detail_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:textSize="20dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이메일    "
+            android:textSize="20dp"
+            />
+
+        <TextView
+            android:id="@+id/detail_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:textSize="20dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/detail_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수정"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/design_default_color_background"
+            android:layout_margin="20dp"
+            />
+
+        <Button
+            android:id="@+id/detail_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/design_default_color_background"
+            android:layout_margin="20dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
