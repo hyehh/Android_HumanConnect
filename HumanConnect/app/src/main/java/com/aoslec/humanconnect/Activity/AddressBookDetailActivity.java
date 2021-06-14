@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.aoslec.humanconnect.Adapter.AddressBookAdapter;
 import com.aoslec.humanconnect.Bean.AddressBook;
@@ -24,15 +26,25 @@ public class AddressBookDetailActivity extends AppCompatActivity {
 
     String macIP, urlAddr = null;
     String name, email, filePath;
-    int phone, acode;
+    int phone, acode, mid;
     TextView tname, temail, tphone;
-    Button delete, update;
+    Button delete, update, call, message, mail, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_book_detail);
 
+        setTitle(name);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        connectGetData();
+    }
+
+    private void connectGetData(){
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         email = intent.getStringExtra("email");
@@ -40,12 +52,17 @@ public class AddressBookDetailActivity extends AppCompatActivity {
         phone = intent.getIntExtra("phone", 0);
         acode = intent.getIntExtra("acode", 0);
         macIP = intent.getStringExtra("macIP");
+        mid = intent.getIntExtra("mid", 0);
 
         tname = findViewById(R.id.detail_name);
         temail = findViewById(R.id.detail_email);
         tphone = findViewById(R.id.detail_phone);
         delete = findViewById(R.id.detail_delete);
         update = findViewById(R.id.detail_update);
+        call = findViewById(R.id.detail_call);
+        message = findViewById(R.id.detail_message);
+        mail = findViewById(R.id.detail_mail);
+        back = findViewById(R.id.detail_back);
 
         tname.setText(name);
         temail.setText(email);
@@ -53,6 +70,10 @@ public class AddressBookDetailActivity extends AppCompatActivity {
 
         delete.setOnClickListener(onClickListener);
         update.setOnClickListener(onClickListener);
+        call.setOnClickListener(onClickListener);
+        message.setOnClickListener(onClickListener);
+        mail.setOnClickListener(onClickListener);
+        back.setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -78,6 +99,32 @@ public class AddressBookDetailActivity extends AppCompatActivity {
                     intent.putExtra("filePath", filePath);
                     intent.putExtra("phone", phone);
                     intent.putExtra("acode", acode);
+                    intent.putExtra("macIP", macIP);
+                    intent.putExtra("mid", mid);
+                    startActivity(intent);
+                    break;
+                case R.id.detail_call:
+                    intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:010"+phone));
+                    startActivity(intent);
+                    break;
+                case R.id.detail_message:
+                    Uri uri = Uri.parse("smsto:010" + phone);
+                    intent = new Intent(Intent.ACTION_SENDTO, uri);
+                    intent.putExtra("sms_body", " ");
+                    startActivity(intent);
+                    break;
+                case R.id.detail_mail:
+                    intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("plain/text");
+                    String[] address = {email};
+                    intent.putExtra(Intent.EXTRA_EMAIL, address);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "");
+                    intent.putExtra(Intent.EXTRA_TEXT, "");
+                    startActivity(intent);
+                    break;
+                case R.id.detail_back:
+                    intent = new Intent(AddressBookDetailActivity.this, MainActivity.class);
+                    intent.putExtra("mid", mid);
                     intent.putExtra("macIP", macIP);
                     startActivity(intent);
                     break;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.aoslec.humanconnect.R;
 
@@ -20,6 +21,7 @@ public class SignInNameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_name);
+        setTitle("이름 입력");
 
         Intent intent = getIntent();
         macIP = intent.getStringExtra("macIP");
@@ -44,10 +46,14 @@ public class SignInNameActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.sign_in_name_btn_next:
-                    intent = new Intent(SignInNameActivity.this, SignInTelActivity.class);
-                    intent.putExtra("macIP", macIP);
-                    intent.putExtra("name", editName);
-                    startActivity(intent);
+                    if(editName.isEmpty()){
+                        Toast.makeText(SignInNameActivity.this, "이름을 입력한 후, 버튼을 클릭해주세요!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        intent = new Intent(SignInNameActivity.this, SignInTelActivity.class);
+                        intent.putExtra("macIP", macIP);
+                        intent.putExtra("name", editName);
+                        startActivity(intent);
+                    }
                     break;
             }
         }

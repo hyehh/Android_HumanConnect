@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,8 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
 //    private OnListItemLongSelectedInterface mLongListener;
     private OnItemClickListener mListener = null;
     private OnItemLongClickListener mLongListener = null;
+    private ArrayList<AddressBook> unFilteredlist;
+    private ArrayList<AddressBook> filteredList;
 
     public AddressBookAdapter(Context mContext, int layout, ArrayList<AddressBook> addressBooks){
         this.mContext = mContext;
@@ -37,6 +41,12 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
         this.addressBooks = addressBooks;
         this.inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+    public void  filterList(ArrayList<AddressBook> filteredList) {
+        addressBooks = filteredList;
+        notifyDataSetChanged();
+    }
+
 
     public interface OnItemClickListener
     {

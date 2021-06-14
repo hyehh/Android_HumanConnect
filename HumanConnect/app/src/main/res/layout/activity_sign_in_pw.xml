@@ -6,9 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".Activity.SignInPwActivity">
 
     <LinearLayout
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0px"
@@ -22,17 +24,17 @@
             android:layout_height="wrap_content"
             style="?android:attr/progressBarStyleHorizontal"
             android:max="100"
-            android:progress="50"
-            android:secondaryProgress="75"
+            android:progress="75"
             />
 
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="100dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:gravity="center"
         >
 
@@ -50,6 +52,8 @@
             android:layout_margin="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword|text"
+            android:hint="문자와 숫자를 포함해 8자리 이상 입력"
             />
 
     </LinearLayout>
@@ -58,7 +62,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         >
 

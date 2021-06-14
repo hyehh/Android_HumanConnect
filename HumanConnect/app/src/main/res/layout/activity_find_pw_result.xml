@@ -7,52 +7,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".Activity.FindPwActivity">
-
+    tools:context=".Activity.FindPwResultActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         >
 
         <TextView
+            android:id="@+id/find_pw_result_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이름을 입력해 주세요"
+            android:text="임시 비밀번호입니다"
             android:textSize="30dp"
             android:gravity="center"
             android:textStyle="bold"
-            />
-
-        <EditText
-            android:id="@+id/find_pw_name"
-            android:layout_margin="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="이름 입력"
-            android:inputType="text"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ID를 입력해 주세요"
+            android:text="임시 비밀번호입니다"
             android:textSize="30dp"
             android:gravity="center"
             android:textStyle="bold"
             />
 
-        <EditText
-            android:id="@+id/find_pw_id"
+        <TextView
+            android:id="@+id/find_pw_result"
             android:layout_margin="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="전화번호 끝 8자리 입력"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:textStyle="bold"
             />
 
     </LinearLayout>
@@ -66,25 +59,15 @@
         >
 
         <Button
-            android:id="@+id/fine_pw_cancel"
+            android:id="@+id/fine_pw_result_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="취소"
+            android:text="로그인하기"
             android:textColor="@color/black"
             android:backgroundTint="@color/design_default_color_background"
-            android:layout_margin="20dp"
 
             />
 
-        <Button
-            android:id="@+id/fine_pw_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="찾기"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/design_default_color_background"
-            android:layout_margin="20dp"
-            />
 
     </LinearLayout>
 

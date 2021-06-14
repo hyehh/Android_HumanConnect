@@ -20,6 +20,7 @@ public class SignInCompleteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_complete);
+        setTitle("회원가입 완료");
 
         textView = findViewById(R.id.sign_in_complete_tv);
         button = findViewById(R.id.sign_in_complete_btn);
@@ -27,7 +28,7 @@ public class SignInCompleteActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
 
-        textView.setText(name + "님이 회원가입이 완료되었습니다!");
+        textView.setText(name + "님의");
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

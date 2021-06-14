@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         loginListener();
     }
 
@@ -57,8 +58,9 @@ public class LoginActivity extends AppCompatActivity {
                     if(result.equals("true")){
                         intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("macIP", macIP);
-                        intent.putExtra("mid", id.getText().toString());
+                        intent.putExtra("mid", Integer.parseInt(id.getText().toString()));
                         intent.putExtra("pw", pw.getText().toString());
+                        Log.v("Message", "mid : " + id.getText().toString());
                         startActivity(intent);
                         Toast.makeText(LoginActivity.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                         finish();

@@ -6,9 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".Activity.SignInNameActivity">
 
     <LinearLayout
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0px"
@@ -23,16 +25,16 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:max="100"
             android:progress="25"
-            android:secondaryProgress="50"
             />
 
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="100dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:gravity="center"
         >
 
@@ -50,6 +52,7 @@
             android:layout_margin="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             />
 
     </LinearLayout>
@@ -58,7 +61,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         >
 

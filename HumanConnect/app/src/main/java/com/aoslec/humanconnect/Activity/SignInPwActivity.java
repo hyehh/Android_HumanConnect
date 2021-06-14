@@ -24,6 +24,7 @@ public class SignInPwActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_pw);
+        setTitle("비밀번호 입력");
 
         Intent intent = getIntent();
         macIP = intent.getStringExtra("macIP");
@@ -47,7 +48,8 @@ public class SignInPwActivity extends AppCompatActivity {
             Intent intent = null;
 
             //urlAddr = urlAddr + "name=777&mid=223&pw=888";
-            urlAddr = urlAddr + "name=" + name.toString() + "&mid=" + mid + "&pw=" + editPw;
+            urlAddr = "http://" + macIP + ":8080/humanconnect/signIn.jsp?";
+            urlAddr = urlAddr + "name=" + name + "&mid=" + mid + "&pw=" + editPw;
             Log.v("Message", urlAddr);
 
             switch (v.getId()){
@@ -56,21 +58,20 @@ public class SignInPwActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.sign_in_pw_btn_next:
-
-                    String result = connectSignInData();
-                    //Log.v("Message", result);
-                    if(result.equals("1")){
-                       intent = new Intent(SignInPwActivity.this, SignInCompleteActivity.class);
-//                        intent.putExtra("macIP", macIP);
-                        intent.putExtra("name", name);
-//                        intent.putExtra("tel", mid);
-//                        intent.putExtra("pw", editPw);
-                        startActivity(intent);
-
-                        Toast.makeText(SignInPwActivity.this, "입력이 완료되었습니다", Toast.LENGTH_SHORT).show();
-                        finish();
+                    if(pw.getText().toString().isEmpty()){
+                        Toast.makeText(SignInPwActivity.this, "비밀번호를 입력한 후, 버튼을 클릭해주세요!", Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(SignInPwActivity.this, "입력이 실패 되었습니다", Toast.LENGTH_SHORT).show();
+                        String result = connectSignInData();
+                        //Log.v("Message", result);
+                        if(result.equals("1")){
+                            intent = new Intent(SignInPwActivity.this, SignInCompleteActivity.class);
+                            //intent.putExtra("macIP", macIP);
+                            intent.putExtra("name", name);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Toast.makeText(SignInPwActivity.this, "입력이 실패 되었습니다", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     break;
             }

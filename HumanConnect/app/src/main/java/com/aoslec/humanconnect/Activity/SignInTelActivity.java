@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.aoslec.humanconnect.R;
 
@@ -20,6 +21,7 @@ public class SignInTelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_tel);
+        setTitle("전화번호 입력");
 
         Intent intent = getIntent();
         macIP = intent.getStringExtra("macIP");
@@ -36,7 +38,6 @@ public class SignInTelActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int editTel = Integer.parseInt(tel.getText().toString());
             Intent intent = null;
 
             switch (v.getId()){
@@ -45,11 +46,16 @@ public class SignInTelActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.sign_in_tel_btn_next:
-                    intent = new Intent(SignInTelActivity.this, SignInPwActivity.class);
-                    intent.putExtra("macIP", macIP);
-                    intent.putExtra("name", name);
-                    intent.putExtra("tel", editTel);
-                    startActivity(intent);
+                    if(tel.getText().toString().isEmpty()){
+                        Toast.makeText(SignInTelActivity.this, "전화번호를 입력한 후, 버튼을 클릭해주세요!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        int editTel = Integer.parseInt(tel.getText().toString());
+                        intent = new Intent(SignInTelActivity.this, SignInPwActivity.class);
+                        intent.putExtra("macIP", macIP);
+                        intent.putExtra("name", name);
+                        intent.putExtra("tel", editTel);
+                        startActivity(intent);
+                    }
                     break;
             }
         }

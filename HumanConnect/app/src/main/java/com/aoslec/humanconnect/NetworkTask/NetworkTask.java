@@ -95,6 +95,12 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
                     // return 값이 존재
                     result = parserAction(stringBuffer.toString());
                     Log.v("Message", result);
+                } else if(where.equals("findPw")){
+                    result = parserAction(stringBuffer.toString());
+                    Log.v("Message", "findPw : " + result);
+                } else if(where.equals("password")){
+                    result = parserAction(stringBuffer.toString());
+                    Log.v("Message", "password : " + result);
                 } else {
                     result = parserAction(stringBuffer.toString());
                 }
