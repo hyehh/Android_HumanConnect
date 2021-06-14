@@ -142,6 +142,7 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
 
     private void parserSelect(String str){
         try {
+            Log.v("Message", "parserSelect");
             JSONObject jsonObject = new JSONObject(str);
             JSONArray jsonArray = new JSONArray(jsonObject.getString("members_info"));
             members.clear();

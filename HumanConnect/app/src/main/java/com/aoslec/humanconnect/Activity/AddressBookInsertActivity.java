@@ -2,37 +2,27 @@ package com.aoslec.humanconnect.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.aoslec.humanconnect.Bean.AddressBook;
 import com.aoslec.humanconnect.NetworkTask.NetworkTaskSelect;
 import com.aoslec.humanconnect.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 
 public class AddressBookInsertActivity extends AppCompatActivity {
 
     String macIP, pw, urlAddr, urlAddr2, urlAddr3, iname, iemail = null;
-    int mid, iphone = 0;
+    int mid, iphone, acode = 0;
     Button choose, back, complete;
     EditText name, phone, email;
+    ArrayList<AddressBook> addressBooks = null;
 //    ImageView imageView;
 //    private final int REQ_CODE_SELECT_IMAGE = 100;
 //    private String img_path = new String();
@@ -56,7 +46,7 @@ public class AddressBookInsertActivity extends AppCompatActivity {
         pw = intent.getStringExtra("pw");
         mid = intent.getIntExtra("mid", 0);
 
-//        choose = findViewById(R.id.insert_choose_btn);
+        choose = findViewById(R.id.insert_choose_btn);
         back = findViewById(R.id.insert_back);
         complete = findViewById(R.id.insert_complete);
         name = findViewById(R.id.insert_name);
@@ -65,6 +55,7 @@ public class AddressBookInsertActivity extends AppCompatActivity {
 
         complete.setOnClickListener(onClickListener);
         back.setOnClickListener(onClickListener);
+        choose.setOnClickListener(onClickListener);
 
 //        imageView = findViewById(R.id.insert_iv);
 //
@@ -85,9 +76,6 @@ public class AddressBookInsertActivity extends AppCompatActivity {
             urlAddr = urlAddr + "name=" + iname + "&phone=" + iphone + "&email=" + iemail;
             Log.v("Message", urlAddr);
 
-            urlAddr2 = "http://" + macIP + ":8080/humanconnect/addressBookInsert2.jsp?";
-            urlAddr2 = urlAddr2 + "mid=" + mid;
-            Log.v("Message", urlAddr2);
             switch (v.getId()){
                 case R.id.insert_back:
                     intent = new Intent(AddressBookInsertActivity.this, MainActivity.class);
@@ -97,23 +85,42 @@ public class AddressBookInsertActivity extends AppCompatActivity {
                     break;
                 case R.id.insert_complete:
                     String result = connectInsertData();
-                    String result2 = connectInsertData2();
+                    //String result3 = connectInsertData3();
 
                     if (result.equals("1")){
                         Toast.makeText(AddressBookInsertActivity.this, "연락처가 추가되었습니다", Toast.LENGTH_SHORT).show();
-                        if (result2.equals("1")){
-                            Toast.makeText(AddressBookInsertActivity.this, "연락처가 추가되었습니다", Toast.LENGTH_SHORT).show();
-                            intent = new Intent(AddressBookInsertActivity.this, MainActivity.class);
-                            intent.putExtra("macIP", macIP);
-                            intent.putExtra("mid", mid);
-                            startActivity(intent);
-                            break;
-                        }else {
-                            Toast.makeText(AddressBookInsertActivity.this, "입력이 실패 되었습니다", Toast.LENGTH_SHORT).show();
+                        try {
+                            urlAddr3 = "http://" + macIP + ":8080/humanconnect/addressBookInsert3.jsp";
+                            NetworkTaskSelect networkTask = new NetworkTaskSelect(AddressBookInsertActivity.this, urlAddr3, "select");
+                            Object obj = networkTask.execute().get();
+                            addressBooks = (ArrayList<AddressBook>) obj;
+                            acode = addressBooks.get(0).getAcode();
+                            Log.v("Message", "acode : " + Integer.toString(acode));
+                            urlAddr2 = "http://" + macIP + ":8080/humanconnect/addressBookInsert2.jsp?";
+                            urlAddr2 = urlAddr2 + "mid=" + mid + "&acode=" + acode;
+                            Log.v("Message", urlAddr2);
+                            String result2 = connectInsertData2();
+                            Log.v("Message", "제발!!!" + result2);
+                            if (result2.equals("1")){
+                                Log.v("Message", "한 번 더!!!" + result2);
+                                Toast.makeText(AddressBookInsertActivity.this, "연락처가 추가되었습니다", Toast.LENGTH_SHORT).show();
+                                intent = new Intent(AddressBookInsertActivity.this, MainActivity.class);
+                                intent.putExtra("macIP", macIP);
+                                intent.putExtra("mid", mid);
+                                startActivity(intent);
+                                break;
+                            }else {
+                                Toast.makeText(AddressBookInsertActivity.this, "입력이 실패 되었습니다", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+
                         }
                     }else {
                         Toast.makeText(AddressBookInsertActivity.this, "입력이 실패 되었습니다", Toast.LENGTH_SHORT).show();
                     }
+                    break;
+                case R.id.insert_choose_btn:
+                    Toast.makeText(AddressBookInsertActivity.this, "이 기능은 준비 중입니다!", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -144,8 +151,23 @@ public class AddressBookInsertActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        Log.v("Message", "result2 : " + result2);
         return result2;
     }
+
+//    private String connectInsertData3(){
+//        String result3 = null;
+//        try {
+//            // NetworkTask 로 넘겨줌
+//            NetworkTaskSelect networkTask = new NetworkTaskSelect(AddressBookInsertActivity.this, urlAddr3, "select");
+//            Object obj = networkTask.execute().get();
+//            // 1이 들어오면 성공한 것, 만약 그 이외의 숫자면 실패한 것
+//            result3 = (String) obj;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return result3;
+//    }
 //    View.OnClickListener ivClickListener = new View.OnClickListener() {
 //        @Override
 //        public void onClick(View v) {

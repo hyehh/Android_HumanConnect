@@ -93,7 +93,9 @@ public class NetworkTaskSelect extends AsyncTask<Integer, String, Object> {
                     result = parserAction(stringBuffer.toString());
                 }else if(where.equals("update")){
                     result = parserAction(stringBuffer.toString());
-                }else {
+                }else if(where.equals("select")){
+                    parserSelect2(stringBuffer.toString());
+                } else {
                     result = parserAction(stringBuffer.toString());
                 }
             }
@@ -114,6 +116,8 @@ public class NetworkTaskSelect extends AsyncTask<Integer, String, Object> {
             return result;
         }else if(where.equals("update")){
             return result;
+        }else if (where.equals("select")){
+            return addressBooks;
         }else {
             return result;
         }
@@ -147,6 +151,25 @@ public class NetworkTaskSelect extends AsyncTask<Integer, String, Object> {
                 String filePath = jsonObject1.getString("filePath");
 
                 AddressBook addressBook = new AddressBook(acode, name, phone, email, filePath);
+                addressBooks.add(addressBook);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void parserSelect2(String str){
+        try {
+            Log.v("Message", "parserSelect2");
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray jsonArray = new JSONArray(jsonObject.getString("acode_info"));
+            addressBooks.clear();
+
+            for(int i=0; i<jsonArray.length(); i++){
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                int acode = jsonObject1.getInt("acode");
+
+                AddressBook addressBook = new AddressBook(acode);
                 addressBooks.add(addressBook);
             }
         }catch (Exception e){

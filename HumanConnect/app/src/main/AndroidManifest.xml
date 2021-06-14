@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HumanConnect">
-        <activity android:name=".Activity.InfoActivity"></activity>
+        <activity android:name=".Activity.InfoUpdateActivity"></activity>
+        <activity android:name=".Activity.InfoActivity" />
         <activity android:name=".Activity.FindPwResultActivity" />
         <activity android:name=".Activity.AddressBookUpdateActivity" />
         <activity android:name=".Activity.AddressBookDetailActivity" />

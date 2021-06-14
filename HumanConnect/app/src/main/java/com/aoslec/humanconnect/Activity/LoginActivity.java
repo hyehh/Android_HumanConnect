@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.aoslec.humanconnect.NetworkTask.NetworkTask;
 import com.aoslec.humanconnect.R;
+import com.aoslec.humanconnect.Utill.Share;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,14 +31,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginListener(){
 
-        macIP = "192.168.0.2";
+        macIP = "192.168.0.128";
         id = findViewById(R.id.login_id);
         pw = findViewById(R.id.login_pw);
         btnLogin = findViewById(R.id.login_btn_login);
         btnSignIn = findViewById(R.id.login_btn_sign_in);
         btnFindPw = findViewById(R.id.login_btn_find_pw);
 
-        urlAddr = "http://" + macIP + ":8080/humanconnect/login.jsp?";
+        //urlAddr = "http://" + macIP + ":8080/humanconnect/login.jsp?";
+        urlAddr = Share.IP + "login.jsp?";
+        id.setMovementMethod(new ScrollingMovementMethod());
+        pw.setMovementMethod(new ScrollingMovementMethod());
 
         btnLogin.setOnClickListener(onClickListener);
         btnSignIn.setOnClickListener(onClickListener);
@@ -50,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
             switch (v.getId()){
                 case R.id.login_btn_login:
-                    urlAddr = "http://" + macIP + ":8080/humanconnect/login.jsp?";
+                    urlAddr = Share.IP + "login.jsp?";
                     urlAddr = urlAddr + "mid=" + Integer.parseInt(id.getText().toString()) + "&pw=" + pw.getText().toString();
                     Log.v("Message", urlAddr);
 

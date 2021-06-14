@@ -18,6 +18,7 @@ import com.aoslec.humanconnect.Adapter.AddressBookAdapter;
 import com.aoslec.humanconnect.Bean.AddressBook;
 import com.aoslec.humanconnect.NetworkTask.NetworkTaskSelect;
 import com.aoslec.humanconnect.R;
+import com.aoslec.humanconnect.Utill.Share;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -48,10 +49,10 @@ public class AddressBookDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         email = intent.getStringExtra("email");
+        macIP = intent.getStringExtra("macIP");
         filePath = intent.getStringExtra("filePath");
         phone = intent.getIntExtra("phone", 0);
         acode = intent.getIntExtra("acode", 0);
-        macIP = intent.getStringExtra("macIP");
         mid = intent.getIntExtra("mid", 0);
 
         tname = findViewById(R.id.detail_name);
@@ -82,7 +83,7 @@ public class AddressBookDetailActivity extends AppCompatActivity {
             Intent intent = null;
             switch (v.getId()){
                 case R.id.detail_delete:
-                    urlAddr = "http://" + macIP + ":8080/humanconnect/addressBookDelete.jsp?";
+                    urlAddr = Share.IP + "addressBookDelete.jsp?";
                     urlAddr = urlAddr + "acode=" + acode;
                     String result = connectDeleteData();
                     if (result.equals("1")){
@@ -99,7 +100,7 @@ public class AddressBookDetailActivity extends AppCompatActivity {
                     intent.putExtra("filePath", filePath);
                     intent.putExtra("phone", phone);
                     intent.putExtra("acode", acode);
-                    intent.putExtra("macIP", macIP);
+//                    intent.putExtra("macIP", macIP);
                     intent.putExtra("mid", mid);
                     startActivity(intent);
                     break;

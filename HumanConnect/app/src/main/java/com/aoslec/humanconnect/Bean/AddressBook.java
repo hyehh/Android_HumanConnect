@@ -16,6 +16,10 @@ public class AddressBook {
         this.filePath = filePath;
     }
 
+    public AddressBook(int acode) {
+        this.acode = acode;
+    }
+
     public int getAcode() {
         return acode;
     }

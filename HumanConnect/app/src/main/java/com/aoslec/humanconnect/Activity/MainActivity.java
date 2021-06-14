@@ -149,25 +149,25 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.main_f_update:
-                    Toast.makeText(MainActivity.this, "해당 기능은 현재 준비중입니다.", Toast.LENGTH_SHORT).show();
-//                    urlAddr2 = "http://" + macIP + ":8080/humanconnect/addressBookSearch.jsp?";
-//                    urlAddr2 = urlAddr + "mid=" + mid;
-//
-//                    try {
-//                        NetworkTask networkTask = new NetworkTask(MainActivity.this, urlAddr2, "select");
-//                        Object obj = networkTask.execute().get();
-//                        members = (ArrayList<Member>) obj;
-//
-//                        intent = new Intent(MainActivity.this, InfoActivity.class);
-//                        intent.putExtra("macIP", macIP);
-//                        Log.v("Message", "memberName " + members.get(1).getName());
-//                        intent.putExtra("name", members.get(1).getName());
-//                        intent.putExtra("pw", members.get(1).getPw());
-//                        intent.putExtra("mid", members.get(1).getMid());
-//                        startActivity(intent);
-//                    }catch (Exception e){
-//                        e.printStackTrace();
-//                    }
+                    urlAddr2 = "http://" + macIP + ":8080/humanconnect/infoSelect.jsp?";
+                    urlAddr2 = urlAddr2 + "mid=" + mid;
+
+                    try {
+                        NetworkTask networkTask = new NetworkTask(MainActivity.this, urlAddr2, "select");
+                        Object obj = networkTask.execute().get();
+                        members = (ArrayList<Member>) obj;
+
+                        intent = new Intent(MainActivity.this, InfoActivity.class);
+                        Log.v("Message", "memberName " + macIP);
+                        intent.putExtra("macIP", macIP);
+                        Log.v("Message", "memberName " + members.get(0).getName());
+                        intent.putExtra("name", members.get(0).getName());
+                        intent.putExtra("pw", members.get(0).getPw());
+                        intent.putExtra("mid", members.get(0).getMid());
+                        startActivity(intent);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     break;
             }
 
