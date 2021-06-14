@@ -101,6 +101,8 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
                 } else if(where.equals("password")){
                     result = parserAction(stringBuffer.toString());
                     Log.v("Message", "password : " + result);
+                } else if(where.equals("select")){
+                    parserSelect(stringBuffer.toString());
                 } else {
                     result = parserAction(stringBuffer.toString());
                 }
@@ -118,7 +120,9 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
         }
         if(where.equals("signIn")){
             return result;
-        }else {
+        } else if(where.equals("select")){
+            return members;
+        } else {
             return result;
         }
     }
@@ -136,24 +140,23 @@ public class NetworkTask extends AsyncTask<Integer, String, Object> {
         return returnValue;
     }
 
-//    private void parserSelect(String str){
-//        try {
-//            JSONObject jsonObject = new JSONObject(str);
-//            JSONArray jsonArray = new JSONArray(jsonObject.getString("addressBooks_info"));
-//            addre.clear();
-//
-//            for(int i=0; i<jsonArray.length(); i++){
-//                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-//                String code = jsonObject1.getString("code");
-//                String name = jsonObject1.getString("name");
-//                String dept = jsonObject1.getString("dept");
-//                String phone = jsonObject1.getString("phone");
-//
-//                Student student = new Student(code, name, dept, phone);
-//                students.add(student);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    private void parserSelect(String str){
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray jsonArray = new JSONArray(jsonObject.getString("members_info"));
+            members.clear();
+
+            for(int i=0; i<jsonArray.length(); i++){
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                int mid = jsonObject1.getInt("mid");
+                String pw = jsonObject1.getString("pw");
+                String name = jsonObject1.getString("name");
+
+                Member member = new Member(mid, pw, name);
+                members.add(member);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

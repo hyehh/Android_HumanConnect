@@ -1,48 +1,49 @@
 package com.aoslec.humanconnect.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.aoslec.humanconnect.Adapter.AddressBookAdapter;
 import com.aoslec.humanconnect.Bean.AddressBook;
-import com.aoslec.humanconnect.Bean.Member;
-import com.aoslec.humanconnect.NetworkTask.NetworkTask;
 import com.aoslec.humanconnect.NetworkTask.NetworkTaskSelect;
 import com.aoslec.humanconnect.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-//public class MainActivity extends AppCompatActivity implements AddressBookAdapter.OnListItemLongSelectedInterface, AddressBookAdapter.OnListItemSelectedInterface{
+public class MainFragment extends Fragment {
 
-    String macIP, pw, urlAddr, urlAddr2 = null;
+    public MainFragment(){
+
+    }
+    String macIP, pw, urlAddr = null;
     int mid = 0;
-    FloatingActionButton fab, fab2 = null;
+    FloatingActionButton fab = null;
     RecyclerView recyclerView = null;
     RecyclerView.LayoutManager layoutManager = null;
     ArrayList<AddressBook> addressBooks, filteredList = null;
-    ArrayList<Member> members = null;
     AddressBookAdapter adapter = null;
     EditText editText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        connectGetData();
+
+        return inflater.inflate(R.layout.fragment_main, container, false);
 
     }
 
@@ -58,33 +59,24 @@ public class MainActivity extends AppCompatActivity {
         adapter.filterList(filteredList);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // 여기 있어야 데이터가 처음 실행될 때도 업데이트 되고, 수정버튼 누르고 다시 돌아왔을 때도 업데이트 된다!
-        connectGetData();
-    }
 
     private void connectGetData(){
         try {
-
-            fab = findViewById(R.id.main_f_btn);
-            fab2 = findViewById(R.id.main_f_update);
-            recyclerView = findViewById(R.id.main_recycler);
-            layoutManager = new LinearLayoutManager(MainActivity.this);
+            fab = getView().findViewById(R.id.main_f_btn);
+            recyclerView = getView().findViewById(R.id.main_recycler);
+            layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
-            editText = findViewById(R.id.main_edit);
+            editText = getView().findViewById(R.id.main_edit);
 
             filteredList = new ArrayList<>();
 
-            Intent intent = getIntent();
-            macIP = intent.getStringExtra("macIP");
-            mid = intent.getIntExtra("mid", 0);
+            //Intent intent = getIntent();
+            //macIP = intent.getStringExtra("macIP");
+            //mid = intent.getIntExtra("mid", 0);
             urlAddr = "http://" + macIP + ":8080/humanconnect/addressBookSearch.jsp?";
             urlAddr = urlAddr + "mid=" + mid;
             Log.v("Message", urlAddr);
             fab.setOnClickListener(onClickListener);
-            fab2.setOnClickListener(onClickListener);
 
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -106,20 +98,20 @@ public class MainActivity extends AppCompatActivity {
 
             Log.v("Message", "try " + urlAddr);
 
-            NetworkTaskSelect networkTask = new NetworkTaskSelect(MainActivity.this, urlAddr, "selectAll");
+            NetworkTaskSelect networkTask = new NetworkTaskSelect(getActivity(), urlAddr, "selectAll");
             Object obj = networkTask.execute().get();
             addressBooks = (ArrayList<AddressBook>) obj;
             // NetworkTask 일 끝남
 
             // 이제 adapter 일 시작
-            adapter = new AddressBookAdapter(MainActivity.this, R.layout.main_layout, addressBooks);
+            adapter = new AddressBookAdapter(getActivity(), R.layout.main_layout, addressBooks);
             recyclerView.setAdapter(adapter);
 
             adapter.setOnItemClickListener(new AddressBookAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View v, int pos) {
                     Intent intent = null;
-                    intent = new Intent(MainActivity.this, AddressBookDetailActivity.class);
+                    intent = new Intent(getActivity(), AddressBookDetailActivity.class);
                     intent.putExtra("acode", addressBooks.get(pos).getAcode());
                     intent.putExtra("name", addressBooks.get(pos).getName());
                     intent.putExtra("phone", addressBooks.get(pos).getPhone());
@@ -140,38 +132,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = null;
-            switch (v.getId()){
-                case R.id.main_f_btn:
-                    intent = new Intent(MainActivity.this, AddressBookInsertActivity.class);
-                    intent.putExtra("macIP", macIP);
-                    intent.putExtra("pw", pw);
-                    intent.putExtra("mid", mid);
-                    startActivity(intent);
-                    break;
-                case R.id.main_f_update:
-                    Toast.makeText(MainActivity.this, "해당 기능은 현재 준비중입니다.", Toast.LENGTH_SHORT).show();
-//                    urlAddr2 = "http://" + macIP + ":8080/humanconnect/addressBookSearch.jsp?";
-//                    urlAddr2 = urlAddr + "mid=" + mid;
-//
-//                    try {
-//                        NetworkTask networkTask = new NetworkTask(MainActivity.this, urlAddr2, "select");
-//                        Object obj = networkTask.execute().get();
-//                        members = (ArrayList<Member>) obj;
-//
-//                        intent = new Intent(MainActivity.this, InfoActivity.class);
-//                        intent.putExtra("macIP", macIP);
-//                        Log.v("Message", "memberName " + members.get(1).getName());
-//                        intent.putExtra("name", members.get(1).getName());
-//                        intent.putExtra("pw", members.get(1).getPw());
-//                        intent.putExtra("mid", members.get(1).getMid());
-//                        startActivity(intent);
-//                    }catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-                    break;
-            }
-
+            intent = new Intent(getActivity(), AddressBookInsertActivity.class);
+            intent.putExtra("macIP", macIP);
+            intent.putExtra("pw", pw);
+            intent.putExtra("mid", mid);
+            startActivity(intent);
         }
     };
-
 }
