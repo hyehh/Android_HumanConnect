@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.aoslec.humanconnect.Adapter.AddressBookAdapter;
@@ -31,13 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
     String macIP, pw, urlAddr, urlAddr2 = null;
     int mid = 0;
-    FloatingActionButton fab, fab2 = null;
+    FloatingActionButton fab, fab2, fab3 = null;
     RecyclerView recyclerView = null;
     RecyclerView.LayoutManager layoutManager = null;
     ArrayList<AddressBook> addressBooks, filteredList = null;
     ArrayList<Member> members = null;
     AddressBookAdapter adapter = null;
     EditText editText;
+    //ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
             fab = findViewById(R.id.main_f_btn);
             fab2 = findViewById(R.id.main_f_update);
+            fab3 = findViewById(R.id.main_f_up);
             recyclerView = findViewById(R.id.main_recycler);
             layoutManager = new LinearLayoutManager(MainActivity.this);
             recyclerView.setLayoutManager(layoutManager);
@@ -85,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
             Log.v("Message", urlAddr);
             fab.setOnClickListener(onClickListener);
             fab2.setOnClickListener(onClickListener);
+
+            setFloatingActionButton(recyclerView);
 
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -115,6 +120,15 @@ public class MainActivity extends AppCompatActivity {
             adapter = new AddressBookAdapter(MainActivity.this, R.layout.main_layout, addressBooks);
             recyclerView.setAdapter(adapter);
 
+            recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    if(!recyclerView.canScrollVertically(-1)){
+                        Log.v("Message", "Top");
+                    }
+                }
+            });
+
             adapter.setOnItemClickListener(new AddressBookAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View v, int pos) {
@@ -134,6 +148,17 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void setFloatingActionButton(final View view) {
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "up", Toast.LENGTH_SHORT).show();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                layoutManager.scrollToPositionWithOffset(0, 0);
+            }
+        });
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
